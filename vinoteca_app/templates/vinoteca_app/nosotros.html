@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'vinoteca_app/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'vinoteca_app/responsive.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="about-hero">
+    <div class="about-hero-content">
+        <span class="hero-tagline">Nuestra Esencia</span>
+        <h1 class="hero-title">Tradición que <span>fluye en el tiempo</span></h1>
+    </div>
+</section>
+
+<section class="about-story">
+    <div class="story-grid">
+        <div class="story-image">
+            <div class="image-wrapper">
+                <img src="{% static 'images/viniedos.png' %}" alt="Nuestros viñedos antiguos" class="main-img">
+            </div>
+        </div>
+        <div class="story-text">
+            <h2 class="section-label tal" >Nuestra Historia</h2>
+            <p class="hero-description">
+                Fundada en el corazón del Valle de Uco, nuestra bodega nació de un sueño familiar: transformar la pureza del agua de montaña y la fuerza del sol mendocino en vinos con alma.
+            </p>
+            <p class="hero-description">
+                Desde hace tres generaciones, mantenemos el compromiso de intervenir lo menos posible en el proceso natural, permitiendo que cada botella sea un reflejo fiel de su terruño.
+            </p>
+        </div>
+
+        <div class="story-text">
+            <h2 class="section-label tal">El Secreto</h2>
+            <p class="hero-description">
+                Creemos que el vino se hace en el viñedo. Por eso, cuidamos nuestras vides con técnicas orgánicas y una cosecha manual que respeta los tiempos de la naturaleza.
+            </p>
+            <p class="hero-description">
+                La altitud y la amplitud térmica de nuestra zona nos brindan uvas de una concentración y frescura excepcionales, que luego descansan en barricas de roble francés.
+            </p>
+        </div>
+        <div class="story-image">
+            <div class="image-wrapper">
+                <img src="{% static 'images/cava.jpg' %}" alt="Nuestra cava" class="main-img">
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

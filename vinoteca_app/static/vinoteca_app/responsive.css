@@ -1,0 +1,133 @@
+﻿/* ==========================================================================
+   DISEÑO RESPONSIVE
+   ========================================================================== */
+/* Tablets y Dispositivos Medianos (max 1008px) */
+@media (max-width: 63rem) {
+    .about-story {
+        padding: 2rem 2rem 4rem;
+    }
+    .about-hero {
+        padding: 4rem 1rem 2rem;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .hero-title {
+        font-size: 3.2rem;
+    }
+
+    .hero-actions {
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    .hero-visual {
+        order: -1;
+    }
+
+    .image-wrapper {
+        padding: 1.25rem;
+    }
+
+    .section-label {
+        font-size: 2.3rem;
+    }
+
+    .story-grid {
+    .story-grid {
+        gap: 3rem;
+    }
+
+    .pl6{
+        padding-left: 0;
+    }
+}
+
+/* Ajuste para Móviles (max 768px) */
+@media (max-width: 48rem) {
+    .about-story {
+        padding: 0rem 1rem 2rem;
+    }
+    .contact-container {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .contact-form-wrapper {
+        padding: 2rem 1.5rem;
+    }
+
+    .story-grid {
+        grid-template-columns: 1fr; 
+        gap: 1rem;
+    }
+
+    .story-grid > div:nth-child(3) {
+        order: 4;
+    }
+    .story-grid > div:nth-child(4) {
+        order: 3;
+    }
+
+    .about-hero {
+        padding: 2rem 1rem 2rem;
+    }
+    
+    .hero-description {
+        margin: 2rem 0 1rem;
+    }
+
+    .contact-section{
+        margin: 0rem;
+    }
+}
+
+/* Ajuste para Móviles (max 640px) */
+@media (max-width: 40rem) {
+    .about-story {
+        padding: 0rem 0.5rem 1rem;
+    }
+    .featured-grid {
+        grid-template-columns: 1fr; 
+    }
+    
+    .wines-header {
+        padding: 6rem 1rem 1rem;
+    }
+}
+
+/* Celulares Pequeños (max 448px) */
+@media (max-width: 28rem) {
+    .navbar {
+        padding: 0.75rem 0;
+    }
+
+    .nav-link {
+        font-size: 0.85rem;
+    }
+
+    .hero-title {
+        font-size: 2.4rem;
+    }
+
+    .hero-description {
+        font-size: 1rem;
+    }
+
+    .btn-reserva,
+    .btn-link {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .wine-card {
+        padding: 01rem;
+    }
+
+    .wines-img {
+        width: 13rem;
+    }
+}

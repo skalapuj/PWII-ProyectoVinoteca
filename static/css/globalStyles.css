@@ -1,0 +1,182 @@
+﻿/* ==========================================================================
+   1. VARIABLES
+   ========================================================================== */
+:root {
+    --bg-base: #2b2b2b;
+    --bg-base-soft: #2f2721;
+    --bg-main: #a35e5ea8;
+    --primary: #6A1B1A;
+    --primary-soft: #9f4342;
+    --accent: #d7b781;
+    --text-main: #f5e6d3;
+    --text-muted: #c4b8ad;
+    --text-solid: #37312b;
+    --font-text: 'Montserrat', sans-serif;
+    --font-titles: 'Playfair Display', serif;
+    --max-width-site: 1280px;
+    --border-radius: 1.25rem;
+    --shadow-card: 0 1.25rem 2.5rem rgba(0, 0, 0, 0.18);
+    --h2-size: 2.6rem;
+}
+
+/* ==========================================================================
+   2. RESET & BASE STYLES
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+    background: radial-gradient(circle at top left, rgba(248, 223, 188, 0.18), transparent 30%),
+                linear-gradient(180deg, var(--bg-base) 0%, var(--bg-base-soft) 100%);
+    font-family: var(--font-text);
+    color: var(--text-main);
+    line-height: 1.5;
+    display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+}
+
+.content {
+  flex: 1;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    line-height: 1.2;
+}
+/* ==========================================================================
+   3. LAYOUT & UTILITIES
+   ========================================================================== */
+section {
+    padding: 4rem 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-family: var(--font-titles);
+    color: var(--text-main);
+}
+
+button,
+a.btn {
+    border: none;
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   4. HEADER (Navigation)
+   ========================================================================== */
+.main-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    background: var(--bg-main);
+    backdrop-filter: blur(14px);
+    border-bottom: 2px solid var(--accent);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    max-width: 75rem;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+}
+
+.navbar {
+    width: min(100%, var(--max-width-site));
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem 0;
+}
+
+.logo img {
+    height: 7rem;
+    width: 17rem;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--accent);
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+    color: var(--accent);
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   5. FOOTER
+   ========================================================================== */
+footer {
+    background: rgba(255, 255, 255, 0.04);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 2rem;
+}
+
+.footer-container {
+    width: min(100%, var(--max-width-site));
+    margin: 0 auto;
+}
+
+.footer-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.footer-logo img {
+    height: 8rem;
+    opacity: 1;
+}
+
+.copyright {
+    font-size: 0.85rem;
+    letter-spacing: 0.12rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.social-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.social-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 700;
+    transition: color 0.25s ease;
+}
+
+.social-links a:hover {
+    color: var(--accent);
+}

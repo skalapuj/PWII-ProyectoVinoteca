@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'vinoteca_app/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'vinoteca_app/responsive.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content pl6">
+        <span class="hero-tagline">Tradición en cada copa</span>
+        <h1 class="hero-title">Vinoteca <br><span>Reserva</span></h1>
+        <p class="hero-description">
+            Explorá nuestra selección exclusiva de etiquetas premiadas y bodegas boutique.
+            Un viaje sensorial a través de los mejores terruños de Argentina.
+        </p>
+        <div class="hero-actions">
+            <a href="{% url 'productos' %}" class="btn-reserva">Ver Catálogo</a>
+            <a href="{% url 'nosotros' %}" class="btn-link">Nuestra Historia</a>
+        </div>
+    </div>
+
+    <div class="hero-visual">
+        <div class="image-wrapper">
+            <img src="{% static 'images/MainVinoteca.png' %}" alt="Cava de Vinos Premium" class="main-img">
+        </div>
+    </div>
+</section>
+
+<section class="featured-section">
+    <h2 class="section-label">Selección Destacada</h2>
+    <div class="featured-grid">
+        <article class="wine-card">
+            <div class="card-img-placeholder">
+                <img src="{% static 'images/vino.png' %}" alt="Malbec" class="wines-img">
+            </div>
+            <h3>Malbec Gran Reserva</h3>
+            <p>Bodega del Desierto</p>
+            <span class="price">$ 42.000</span>
+        </article>
+        <article class="wine-card">
+            <div class="card-img-placeholder">
+                <img src="{% static 'images/vino.png' %}" alt="Cabernet" class="wines-img">
+            </div>
+            <h3>Cabernet Franc</h3>
+            <p>El Enemigo - 2021</p>
+            <span class="price">$ 38.500</span>
+        </article>
+        <article class="wine-card">
+            <div class="card-img-placeholder">
+                <img src="{% static 'images/vino.png' %}" alt="Blanco" class="wines-img">
+            </div>
+            <h3>Blend de Blancas</h3>
+            <p>Catena Zapata</p>
+            <span class="price">$ 35.000</span>
+        </article>
+    </div>
+</section>
+{% endblock %}
