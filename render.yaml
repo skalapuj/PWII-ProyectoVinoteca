@@ -5,5 +5,11 @@ services:
     buildBinary: false #asegura la compilación limpia
     buildCommand: |
       pip install -r requirements.txt && 
+      pip manage.py migrate &&
       python manage.py collectstatic --noinput
     startCommand: "gunicorn vinoteca_project.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: luxor_project.settings
+      - key: DATABASE_URL
+        value: postgresql://proyectodjango_1ca5_user:MK3RggdLT6Z2HEaNpU0I6fgRqUMrcCjP@dpg-d8qae3egvqtc73a2c3m0-a.oregon-postgres.render.com/proyectodjango_1ca5
