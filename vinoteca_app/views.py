@@ -46,34 +46,42 @@ def contacto(request):
                 }, status=500)
 
             try:
-                asunto_mail = f"Confirmación de Consulta - Vinoteca Reserva"
+                if request.user.is_authenticated and request.user.email:
+                    destinatario_final = request.user.email
+                    nombre_destinatario = request.user.first_name or request.user.username
+                else:
+                    destinatario_final = 'annavillegas@live.com.ar'
+                    nombre_destinatario = "Profesora Analía"
 
-                asunto_legible = dict(ContactoForm.OPCIONES_ASUNTOS).get(datos_limpios['asunto'], 'Consulta')
+                asunto_legible = dict(form.fields['asunto'].choices).get(datos_limpios['asunto'], 'Consulta General')
+
+                asunto_mail = f"Nueva Consulta Recibida - Categoría: {nueva_consulta.categoria}"
 
                 cuerpo_mensaje = (
-                    f"Hola {datos_limpios['nombre']},\n\n"
-                    f"¡Gracias por comunicarte con Vinoteca Reserva!\n"
-                    f"Hemos recibido tu mensaje de forma exitosa en nuestro sistema.\n\n"
-                    f"Detalle de tu solicitud:\n"
+                    f"Hola {nombre_destinatario},\n\n"
+                    f"Te confirmamos que hemos recibido un nuevo formulario en el sistema de Vinoteca Reserva.\n\n"
+                    f"Detalle de los datos cargados por el cliente:\n"
                     f"==================================================\n"
-                    f"• Tipo de Trámite: {asunto_legible}\n"
-                    f"• Tu Correo: {datos_limpios['email']}\n"
+                    f"• Remitente: {datos_limpios['nombre']}\n"
+                    f"• Email de contacto: {datos_limpios['email']}\n"
+                    f"• Categoría: {asunto_legible}\n"
+                    f"• Asunto: {nueva_consulta.categoria}\n"
                     f"• Mensaje enviado: \"{datos_limpios['mensaje']}\"\n"
                     f"==================================================\n\n"
-                    f"Un sommelier o asesor comercial se estará comunicando con vos a la brevedad "
-                    f"para responder tu consulta de forma personalizada.\n\n"
+                    f"Este es un correo automático generado por el servidor de pruebas 2026.\n"
                     f"Atentamente,\n"
-                    f"El equipo de Vinoteca Reserva S.A. 2026."
+                    f"Soporte Técnico - Vinoteca Reserva S.A."
                 )
 
-                # send_mail(
-                #     subject=asunto_mail,
-                #     message=cuerpo_mensaje,
-                #     from_email=settings.DEFAULT_FROM_EMAIL,
-                #     recipient_list=[datos_limpios['email']],
-                #     fail_silently=False,
-                # )
-                print(f"Correo de confirmación enviado con éxito a: {datos_limpios['email']}")
+                send_mail(
+                    subject=asunto_mail,
+                    message=cuerpo_mensaje,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[destinatario_final],
+                    fail_silently=False,
+                )
+
+                print(f"Correo automático de categoría [{nueva_consulta.categoria}] enviado con éxito a: {destinatario_final}")
 
             except Exception as e:
                 return JsonResponse({
