@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: PWII-ProyectoVinoteca
+    env: python
+    buildBinary: false #asegura la compilación limpia
+    buildCommand: |
+      pip install -r requirements.txt && 
+      python manage.py collectstatic --noinput
+    startCommand: "gunicorn vinoteca_project.wsgi:application"
