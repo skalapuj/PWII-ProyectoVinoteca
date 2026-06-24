@@ -16,8 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from vinoteca_app.api import ConsultaViewSet
+
+router = DefaultRouter()
+router.register(r'consultas', ConsultaViewSet, basename='consulta-api')
 
 urlpatterns = [
+    path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
     path('', include('vinoteca_app.urls')),
 ]

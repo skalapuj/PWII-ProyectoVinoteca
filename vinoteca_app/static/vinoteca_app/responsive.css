@@ -87,6 +87,10 @@
 
 /* Ajuste para Móviles (max 640px) */
 @media (max-width: 40rem) {
+    .pl6{
+        padding-left: 8rem;
+    }
+
     .about-story {
         padding: 0rem 0.5rem 1rem;
     }
@@ -129,5 +133,8 @@
 
     .wines-img {
         width: 13rem;
+    }
+    .pl6{
+        padding-left: 2rem;
     }
 }

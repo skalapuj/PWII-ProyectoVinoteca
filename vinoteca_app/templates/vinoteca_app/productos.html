@@ -20,64 +20,37 @@
 
 <section class="wines-gallery">
     <h2 class="section-label">Tintos de Guarda</h2>
-    <div id="wine-modal" class="modal-overlay">
-        <div class="modal-content">
-            <button id="close-modal" class="close-btn">&times;</button>
-            <h2 id="modal-wine-name">Nombre</h2>
-            <p id="modal-wine-desc">Descripción...</p>
-            <span id="modal-wine-price" class="price">Precio</span>
-        </div>
-    </div>
 
     <div class="featured-grid">
+        {% for vino in vinos_api %}
         <article class="wine-card">
             <div class="card-img-placeholder">
-                <img src="{% static 'images/tinto.png' %}" alt="Malbec Reserva" class="wines-img">
+                <img src="{% static 'images/tinto.png' %}" alt="{{ vino.wine }}" class="wines-img">
             </div>
             <div class="wine-info">
-                <h3>Malbec Reserva 2021</h3>
-                <p>Notas de frutos negros, chocolate y vainilla.</p>
+                <h3>{{ vino.wine }}</h3>
+                <p>Bodega: <strong>{{ vino.winery }}</strong></p>
+
                 <button class="btn-link btn-detalle"
-                        data-name="Malbec Reserva 2021"
-                        data-desc="Notas de frutos negros, chocolate y vainilla. Crianza de 12 meses en barricas de roble francés. Ideal para acompañar carnes rojas a la parilla."
-                        data-price="$12.500">
+                        data-name="{{ vino.wine }}"
+                        data-desc="Este es un tinto exclusivo de la bodega {{ vino.winery }}. Cuenta con una excelente puntuación de {{ vino.rating.average }} estrellas basada en {{ vino.rating.reviews }} reseñas en el mercado internacional."
+                        data-price="$ 18.500">
                     Ver Detalles
                 </button>
             </div>
         </article>
-
-        <article class="wine-card">
-            <div class="card-img-placeholder">
-                <img src="{% static 'images/tinto.png' %}" alt="Cabernet Sauvignon" class="wines-img">
-            </div>
-            <div class="wine-info">
-                <h3>Cabernet Sauvignon</h3>
-                <p>Estructura firme con aromas a pimiento y especias.</p>
-                <button class="btn-link btn-detalle"
-                    data-name="Cabernet Sauvignon"
-                    data-desc="Estructura firme con aromas a pimiento y especias. Posee taninos maduros y un final persistente y elegante."
-                    data-price="$10.800">
-                Ver Detalles
-            </button>
-            </div>
-        </article>
-
-        <article class="wine-card">
-            <div class="card-img-placeholder">
-                <img src="{% static 'images/tinto.png' %}" alt="Gran Corte" class="wines-img">
-            </div>
-            <div class="wine-info">
-                <h3>Gran Corte de Familia</h3>
-                <p>Nuestra selección de las mejores barricas del año.</p>
-                <button class="btn-link btn-detalle"
-                    data-name="Gran Corte de Familia"
-                    data-desc="Nuestra selección de las mejores barricas del año. Un blend complejo y sofisticado de Malbec, Cabernet Sauvignon y Merlot con gran potencial de guarda."
-                    data-price="$18.200">
-                Ver Detalles
-            </button>
-            </div>
-        </article>
-
+        {% empty %}
+            <p class="error-msg">No se pudieron cargar los vinos de la API externa en este momento.</p>
+        {% endfor %}
     </div>
 </section>
+
+<div id="wine-modal" class="modal-overlay">
+    <div class="modal-content">
+        <button id="close-modal" class="close-btn">&times;</button>
+        <h2 id="modal-wine-name"></h2>
+        <p id="modal-wine-desc"></p>
+        <span id="modal-wine-price" class="price"></span>
+    </div>
+</div>
 {% endblock %}

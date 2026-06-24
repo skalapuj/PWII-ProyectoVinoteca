@@ -12,4 +12,6 @@ urlpatterns = [
     path('validar-cuenta/', views.validar_cuenta_view, name='validar_cuenta'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
+
+    path('api/vinos-externos/', views.ListaVinosExternosAPIView.as_view(), name='api_vinos_externos'),
 ]

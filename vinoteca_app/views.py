@@ -1,23 +1,26 @@
 from .forms import ContactoForm, RegistroForm, ValidacionCodigoForm, LoginForm
+from .models import Contacto, UsuarioPermitido, PerfilUsuario
+from .serializers import VinoExternoSerializer
+import requests
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import Contacto, UsuarioPermitido, PerfilUsuario
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from django.contrib import messages
-
+from django.shortcuts import render
+from django.views import View
 
 def home(request):
     return render(request, 'vinoteca_app/index.html')
 
 def nosotros(request):
     return render(request, 'vinoteca_app/nosotros.html')
-
-def productos(request):
-    return render(request, 'vinoteca_app/productos.html')
 
 def contacto(request):
     if request.method == 'GET':
@@ -93,7 +96,6 @@ def contacto(request):
         'status': 'error',
         'message': 'Método no permitido'
     }, status=405)
-
 
 def registro_view(request):
     if request.method == 'GET':
@@ -231,7 +233,6 @@ def validar_cuenta_view(request):
         form = ValidacionCodigoForm(initial={'email': email_session})
     return render(request, 'vinoteca_app/auth/validar.html', {'form': form})
 
-
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -260,7 +261,37 @@ def login_view(request):
         form = LoginForm()
     return render(request, 'vinoteca_app/auth/login.html', {'form': form})
 
-
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+
+class ListaVinosExternosAPIView(APIView):
+    def get(self, request):
+        url_externa = "https://api.sampleapis.com/wines/reds"
+        try:
+            respuesta = requests.get(url_externa, timeout=5)
+            if respuesta.status_code == 200:
+                datos_raw = respuesta.json()[:3]
+
+                serializer = VinoExternoSerializer(data=datos_raw, many=True)
+                if serializer.is_valid():
+                    return Response(serializer.data)
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "No se pudo conectar a la API externa"}, status=respuesta.status_code)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+def productos(request):
+    api_url = "http://127.0.0.1:8000/api/vinos-externos/"
+    vinos_api = []
+
+    try:
+        res = requests.get(api_url, timeout=3)
+        if res.status_code == 200:
+            vinos_api = res.json()
+    except:
+        pass
+
+    return render(request, 'vinoteca_app/productos.html', {'vinos_api': vinos_api})
