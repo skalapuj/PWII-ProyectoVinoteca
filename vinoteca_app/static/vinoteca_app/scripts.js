@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const formulario = document.getElementById('form-contacto');
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
     if (formulario) {
         formulario.addEventListener('submit', function(event) {
@@ -21,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 body: datosParaEnviar,
                 headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
+                    'X-CSRFToken': csrfToken
                 }
             })
             .then(response => {
