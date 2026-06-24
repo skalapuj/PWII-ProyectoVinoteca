@@ -75,7 +75,7 @@ def contacto(request):
                     f"Soporte Técnico - Vinoteca Reserva S.A."
                 )
 
-                if 'DATABASE_URL' not in os.environ:
+                if settings.DEBUG:
                     # Si NO estoy en Render (o sea, estamos en localhost), mando el mail
                     send_mail(
                         subject=asunto_mail,
@@ -133,7 +133,7 @@ def registro_view(request):
                     if permitido:
                         request.session['email_a_validar'] = email_ingresado
 
-                        if 'DATABASE_URL' not in os.environ:
+                        if settings.DEBUG:
                             # Si NO estoy en Render (o sea, estamos en localhost), mando el mail
                             send_mail(
                                 subject="Validación de Cuenta - Reenvío de Código",
@@ -184,7 +184,7 @@ def registro_view(request):
                         f"Soporte Técnico - Vinoteca Reserva S.A. 2026."
                     )
 
-                    if 'DATABASE_URL' not in os.environ:
+                    if settings.DEBUG:
                         # Si NO estoy en Render (o sea, estamos en localhost), mando el mail
                         send_mail(
                             subject=asunto_auth,
