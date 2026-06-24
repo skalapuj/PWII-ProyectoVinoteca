@@ -11,6 +11,13 @@
     --text-main: #f5e6d3;
     --text-muted: #c4b8ad;
     --text-solid: #37312b;
+    --auth-bg-main: #1a120b;
+    --auth-bg-card: #2f2721;
+    --auth-color-primary: #d7b781;
+    --auth-color-primary-hover: #c5a670;
+    --auth-color-text-light: #f5e6d3;
+    --auth-color-text-muted: #c4b8ad;
+    --auth-color-error: #9f4342;
     --font-text: 'Montserrat', sans-serif;
     --font-titles: 'Playfair Display', serif;
     --max-width-site: 1280px;

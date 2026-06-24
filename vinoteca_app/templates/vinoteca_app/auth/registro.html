@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'vinoteca_app/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'vinoteca_app/responsive.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'vinoteca_app/auth_validacion.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<section class="register-section">
+    <div class="register-card">
+        <h2 class="register-title">Registro del cliente</h2>
+
+        <p id="js-alerta-registro" class="error-message"></p>
+        {% if messages %}
+            {% for message in messages %}
+                <p class="error-message">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST" id="form-registro" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn-submit">Registrarse</button>
+        </form>
+        <div class="auth-footer">
+            <p class="auth-footer-text">¿Ya tenés una cuenta registrada?</p>
+            <a href="{% url 'login' %}" class="btn-secondary">
+                Iniciar sesión
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

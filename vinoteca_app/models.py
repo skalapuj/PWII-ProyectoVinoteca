@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Contacto(models.Model):
     ASUNTOS_CHOICES = [
@@ -34,3 +35,19 @@ class Contacto(models.Model):
 
     def __str__(self):
         return f"Consulta de {self.nombre} - {self.categoria}"
+
+class UsuarioPermitido(models.Model):
+    nombre = models.CharField(max_length=100)
+    apellido = models.CharField(max_length=100, default="")
+    email = models.EmailField(unique=True)
+    codigo_validation = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f"{self.email} ({self.nombre})"
+
+class PerfilUsuario(models.Model):
+    user = models.OneToOneField(User, on_shared_with_user:=models.CASCADE)
+    cuenta_validada = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Perfil de {self.user.username} - Validado: {self.cuenta_validada}"

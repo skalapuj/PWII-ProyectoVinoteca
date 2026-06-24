@@ -69,3 +69,30 @@ class ContactoForm(forms.Form):
             'min_length': 'El mensaje debe tener al menos 10 caracteres.'
         }
     )
+
+
+class RegistroForm(forms.Form):
+    nombre = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre'}))
+    apellido = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellido'}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'correo@ejemplo.com'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Cree su contraseña segura'}))
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+
+        if len(password) < 8:
+            raise ValidationError("La contraseña debe tener al menos 8 caracteres.")
+        if not any(char.isupper() for char in password):
+            raise ValidationError("La contraseña debe incluir al menos una letra mayúscula.")
+        if not any(char.isdigit() for char in password):
+            raise ValidationError("La contraseña debe incluir al menos un número.")
+
+        return password
+
+class ValidacionCodigoForm(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'readonly': True}))
+    codigo = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingresá el código enviado'}))
+
+class LoginForm(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'correo@ejemplo.com'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Tu contraseña'}))

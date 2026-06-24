@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from .models import Contacto
+from .models import UsuarioPermitido, PerfilUsuario
 
 @admin.register(Contacto)
 class ContactoAdmin(admin.ModelAdmin):
@@ -31,3 +32,13 @@ class ContactoAdmin(admin.ModelAdmin):
         extra_context['resumen_estadisticas'] = mark_safe(html_renderizado)
 
         return super().changelist_view(request, extra_context=extra_context)
+
+@admin.register(UsuarioPermitido)
+class UsuarioPermitidoAdmin(admin.ModelAdmin):
+    list_display = ('email', 'nombre', 'codigo_validation')
+    search_fields = ('email', 'nombre')
+
+@admin.register(PerfilUsuario)
+class PerfilUsuarioAdmin(admin.ModelAdmin):
+    list_display = ('user', 'cuenta_validada')
+    list_filter = ('cuenta_validada',)
