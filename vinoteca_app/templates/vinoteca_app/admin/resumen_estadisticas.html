@@ -1,0 +1,82 @@
+<style>
+    .admin-stats-container {
+        background: #2f2721;
+        border: 2px solid #d7b781;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        color: #f5e6d3;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .admin-stats-title {
+        margin-top: 0;
+        color: #d7b781;
+        border-bottom: 1px solid rgba(215, 183, 129, 0.3);
+        padding-bottom: 10px;
+        font-size: 1.4rem;
+    }
+
+    .admin-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+        margin-top: 15px;
+    }
+
+    .stat-box {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+        color: #c4b8ad;
+        display: block;
+        text-transform: uppercase;
+    }
+
+    .stat-number {
+        font-size: 1.8rem;
+        color: #f5e6d3;
+    }
+
+    .box-total { border-left: 4px solid #d7b781; }
+    .box-comercial { border-left: 4px solid #6A1B1A; }
+    .box-tecnica { border-left: 4px solid #9f4342; }
+    .box-rrhh { border-left: 4px solid #c4b8ad; }
+    .box-general { border-left: 4px solid #f5e6d3; }
+</style>
+
+<div class="admin-stats-container">
+    <h3 class="admin-stats-title">Resumen Estadístico de Solicitudes</h3>
+
+    <div class="admin-stats-grid">
+        <div class="stat-box box-total">
+            <span class="stat-label">Total Recibidas</span>
+            <strong class="stat-number">{{ estadisticas.total }}</strong>
+        </div>
+
+        <div class="stat-box box-comercial">
+            <span class="stat-label">Comerciales</span>
+            <strong class="stat-number">{{ estadisticas.comercial }}</strong>
+        </div>
+
+        <div class="stat-box box-tecnica">
+            <span class="stat-label">Técnicas</span>
+            <strong class="stat-number">{{ estadisticas.tecnica }}</strong>
+        </div>
+
+        <div class="stat-box box-rrhh">
+            <span class="stat-label">RRHH</span>
+            <strong class="stat-number">{{ estadisticas.rrhh }}</strong>
+        </div>
+
+        <div class="stat-box box-general">
+            <span class="stat-label">Generales</span>
+            <strong class="stat-number">{{ estadisticas.general }}</strong>
+        </div>
+    </div>
+</div>

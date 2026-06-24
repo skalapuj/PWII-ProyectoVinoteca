@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
 from .models import Contacto
 
 @admin.register(Contacto)
@@ -7,10 +9,25 @@ class ContactoAdmin(admin.ModelAdmin):
     list_filter = ('asunto', 'fecha_envio')
     search_fields = ('nombre', 'email', 'mensaje')
     ordering = ('-fecha_envio',)
-    readonly_fields = ('nombre', 'email', 'asunto', 'mensaje', 'fecha_envio')
+    readonly_fields = ('mensaje', 'fecha_envio')
 
-    def has_delete_permission(self, request, obj=None):
-      return False
+    def changelist_view(self, request, extra_context=None):
+        queryset = self.get_queryset(request)
 
-    def has_add_permission(self, request):
-      return False
+        ctx_estadisticas = {
+            'total': queryset.count(),
+            'comercial': queryset.filter(categoria="Consulta Comercial").count(),
+            'tecnica': queryset.filter(categoria="Consulta Técnica").count(),
+            'rrhh': queryset.filter(categoria="Consulta de RRHH").count(),
+            'general': queryset.filter(categoria="Consulta General").count(),
+        }
+
+        html_renderizado = render_to_string(
+            'vinoteca_app/admin/resumen_estadisticas.html',
+            {'estadisticas': ctx_estadisticas}
+        )
+
+        extra_context = extra_context or {}
+        extra_context['resumen_estadisticas'] = mark_safe(html_renderizado)
+
+        return super().changelist_view(request, extra_context=extra_context)
