@@ -16,6 +16,7 @@ from django.contrib import messages
 from django.shortcuts import render
 from django.views import View
 from django.urls import reverse
+import os
 
 def home(request):
     return render(request, 'vinoteca_app/index.html')
@@ -74,13 +75,15 @@ def contacto(request):
                     f"Soporte Técnico - Vinoteca Reserva S.A."
                 )
 
-                send_mail(
-                    subject=asunto_mail,
-                    message=cuerpo_mensaje,
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[destinatario_final],
-                    fail_silently=False,
-                )
+                if 'DATABASE_URL' not in os.environ:
+                    # Si NO estoy en Render (o sea, estamos en localhost), mando el mail
+                    send_mail(
+                        subject=asunto_mail,
+                        message=cuerpo_mensaje,
+                        from_email=settings.DEFAULT_FROM_EMAIL,
+                        recipient_list=[destinatario_final],
+                        fail_silently=False,
+                    )
 
                 print(f"Correo automático de categoría [{nueva_consulta.categoria}] enviado con éxito a: {destinatario_final}")
 
@@ -129,13 +132,17 @@ def registro_view(request):
                     permitido = UsuarioPermitido.objects.filter(email=email_ingresado).first()
                     if permitido:
                         request.session['email_a_validar'] = email_ingresado
-                        send_mail(
-                            subject="Validación de Cuenta - Reenvío de Código",
-                            message=f"Hola {permitido.nombre},\n\nTu cuenta ya está pre-registrada pero le falta validación.\nCódigo: {permitido.codigo_validation}",
-                            from_email=settings.DEFAULT_FROM_EMAIL,
-                            recipient_list=[email_ingresado],
-                            fail_silently=False,
-                        )
+
+                        if 'DATABASE_URL' not in os.environ:
+                            # Si NO estoy en Render (o sea, estamos en localhost), mando el mail
+                            send_mail(
+                                subject="Validación de Cuenta - Reenvío de Código",
+                                message=f"Hola {permitido.nombre},\n\nTu cuenta ya está pre-registrada pero le falta validación.\nCódigo: {permitido.codigo_validation}",
+                                from_email=settings.DEFAULT_FROM_EMAIL,
+                                recipient_list=[email_ingresado],
+                                fail_silently=False,
+                            )
+
                         return JsonResponse({
                             'status': 'success',
                             'message': 'La cuenta ya existe pero falta validar. Le reenviamos el correo.'
@@ -177,13 +184,15 @@ def registro_view(request):
                         f"Soporte Técnico - Vinoteca Reserva S.A. 2026."
                     )
 
-                    send_mail(
-                        subject=asunto_auth,
-                        message=cuerpo_auth,
-                        from_email=settings.DEFAULT_FROM_EMAIL,
-                        recipient_list=[email_ingresado],
-                        fail_silently=False,
-                    )
+                    if 'DATABASE_URL' not in os.environ:
+                        # Si NO estoy en Render (o sea, estamos en localhost), mando el mail
+                        send_mail(
+                            subject=asunto_auth,
+                            message=cuerpo_auth,
+                            from_email=settings.DEFAULT_FROM_EMAIL,
+                            recipient_list=[email_ingresado],
+                            fail_silently=False,
+                        )
 
                     print(f"Código de validación enviado por correo a: {email_ingresado}")
 
