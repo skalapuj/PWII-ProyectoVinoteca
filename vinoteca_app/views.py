@@ -15,6 +15,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.shortcuts import render
 from django.views import View
+from django.urls import reverse
 
 def home(request):
     return render(request, 'vinoteca_app/index.html')
@@ -292,7 +293,7 @@ class ListaVinosExternosAPIView(APIView):
 
 
 def productos(request):
-    api_url = "http://127.0.0.1:8000/api/vinos-externos/"
+    api_url = request.build_absolute_uri(reverse('api_vinos_externos'))
     vinos_api = []
 
     try:
