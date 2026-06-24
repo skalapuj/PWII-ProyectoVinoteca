@@ -123,12 +123,8 @@ Si desea clonar y ejecutar este proyecto en un entorno local, siga estos pasos:
 
 ## Nota Importante sobre Evaluación Local (Servidor de Correos)
 
-Para garantizar la estabilidad del despliegue en Render (que no cuenta con un servidor SMTP configurado), la función `send_mail` se encuentra comentada en el commit de producción.
+El sistema cuenta con una **arquitectura de entornos inteligente y automatizada** que gestiona el comportamiento del framework de forma nativa en el archivo `settings.py` y en las capas del Backend (`views.py`):
 
-Si se desea evaluar el **Servidor de Mails y Respuestas Automáticas (REQ 3 y Auth)** en un entorno local, por favor siga estos pasos:
-
-1. Abra la terminal en la carpeta del proyecto local.
-2. Ejecute el siguiente comando para viajar en el tiempo a la versión con el Backend de correos activo:
-   ```bash
-   git checkout 004a89d3d002fc1f6010f59ee3d51c84a9c542ce
-   ```
+* **Detección Automática de Infraestructura:** El valor de la variable `DEBUG` se calcula dinámicamente mediante la existencia de variables de entorno del servidor de despliegue (`DEBUG = 'RENDER' not in os.environ`).
+* **En Producción (Render - MODO PRODUCCIÓN):** El sistema detecta el entorno en la nube y establece `DEBUG = False`. Almacena de forma segura los datos en PostgreSQL y **omite el envío físico de correos de forma automática**, evitando cuelgues o penalizaciones por la falta de un servidor SMTP real en producción.
+* **En Entorno Local (Localhost - MODO DESARROLLO):** Al clonar y ejecutar el proyecto localmente, el sistema inicializa `DEBUG = True` y habilita de forma nativa el servidor de correos configurado. Al interactuar con el formulario de contacto o el registro de usuarios, **el sistema realiza el envío exitoso y real del correo electrónico**.
