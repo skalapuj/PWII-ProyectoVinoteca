@@ -297,10 +297,11 @@ def productos(request):
     vinos_api = []
 
     try:
-        res = requests.get(api_url, timeout=3)
-        if res.status_code == 200:
-            vinos_api = res.json()
-    except:
-        pass
+        api_view = ListaVinosExternosAPIView.as_view()
+        response = api_view(request)
+        if response.status_code == 200:
+            vinos_api = response.data
+    except Exception as e:
+        print(f"Error interno al invocar la APIView de DRF: {e}")
 
     return render(request, 'vinoteca_app/productos.html', {'vinos_api': vinos_api})
