@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-(f3#+2w%kakbhyyrqgrbdpzopf4$kyfkwqqp1b_j@!52%%ben&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['pwii-proyectovinoteca.onrender.com/']
+ALLOWED_HOSTS = ['pwii-proyectovinoteca.onrender.com']
 
 
 # Application definition
