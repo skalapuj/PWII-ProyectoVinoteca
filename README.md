@@ -98,12 +98,12 @@ Si desea clonar y ejecutar este proyecto en un entorno local, siga estos pasos:
 
 1.  **Clonar el repositorio:**
     ```bash
-    git clone [https://github.com/TU_USUARIO/TU_REPOSITORIO.git](https://github.com/TU_USUARIO/TU_REPOSITORIO.git)
-    cd TU_REPOSITORIO
+    git clone [https://github.com/skalapuj/PWII-ProyectoVinoteca](https://github.com/skalapuj/PWII-ProyectoVinoteca)
+    cd PWII-ProyectoVinoteca
     ```
 2.  **Configurar el Entorno Virtual:**
     ```bash
-    python -m venv .venv
+    python -m venv .venv (o  py -m venv .venv)
     # En Windows:
     .venv\Scripts\activate
     # En Mac/Linux:
