@@ -352,11 +352,13 @@ button.btn-link:hover {
 .contact-form select,
 .contact-form textarea {
     width: 100%;
-    padding: 1rem;
+    padding: 0.75rem;
     background: var(--text-main);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 0.5rem;
     color: var(--text-solid);
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
     font-family: var(--font-text);
     transition: border-color 0.3s ease;
 }
@@ -373,11 +375,20 @@ button.btn-link:hover {
     color: var(--text-main);
 }
 
-/* mensajes de error*/
+/* mensajes*/
 .error-msg{
     color: #9f4342;
-    font-size: 0.85rem;
+    font-size: 1.35rem;
+    border-radius: 0.5rem;
+    background-color: #d4edda;
     display: none;
+}
+
+.ok-msg{
+    color: #155724;
+    border-radius: 0.5rem;
+    background-color: #d4edda;
+    font-size: 1.35rem;
 }
 
 /* ==========================================================================
