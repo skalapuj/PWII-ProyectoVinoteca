@@ -13,4 +13,8 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
 
     path('api/vinos-externos/', views.ListaVinosExternosAPIView.as_view(), name='api_vinos_externos'),
+
+    path('panel-admin/consultas/', views.panel_consultas, name='panel_consultas'),
+    path('panel-admin/consultas/<int:pk>/editar/', views.editar_consulta, name='editar_consulta'),
+    path('panel-admin/consultas/<int:pk>/eliminar/', views.eliminar_consulta, name='eliminar_consulta'),
 ]

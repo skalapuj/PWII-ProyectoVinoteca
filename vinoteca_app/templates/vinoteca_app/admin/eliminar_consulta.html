@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'vinoteca_app/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'vinoteca_app/responsive.css' %}">
+{% endblock %}
+{% block content %}
+<section class="auth-section">
+    <div class="auth-card">
+        <h2 class="auth-title">Confirmar Eliminación</h2>
+        
+        <p class="my-4">
+            ¿Estás segura de que querés eliminar la consulta de <strong>{{ consulta.nombre }}</strong> ({{ consulta.email }})?
+        </p>
+
+        <form method="POST" action="{% url 'eliminar_consulta' consulta.pk %}">
+            {% csrf_token %}
+            <div class="center">
+                <a href="{% url 'panel_consultas' %}" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn-secondary btn-outline-danger ">Sí, Eliminar</button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

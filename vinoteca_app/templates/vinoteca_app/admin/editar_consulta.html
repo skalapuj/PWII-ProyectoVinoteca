@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'vinoteca_app/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'vinoteca_app/responsive.css' %}">
+{% endblock %}
+{% block content %}
+<section class="auth-section">
+    <div class="auth-card" style="max-width: 600px; margin: 0 auto;">
+        <h2 class="auth-title">Editar Consulta #{{ consulta.id }}</h2>
+
+        <form method="POST" action="{% url 'editar_consulta' consulta.pk %}">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label class="form-label">Nombre</label>
+                {{ form.nombre }}
+                {{ form.nombre.errors }}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Asunto / Categoría</label>
+                {{ form.asunto }}
+                {{ form.asunto.errors }}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Mensaje</label>
+                {{ form.mensaje }}
+                {{ form.mensaje.errors }}
+            </div>
+
+            <div class="center">
+                <a href="{% url 'panel_consultas' %}" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-secondary btn-outline-danger">Guardar Cambios</button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

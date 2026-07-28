@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'vinoteca_app/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'vinoteca_app/responsive.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}
+
+{% block content %}
+<section class="contact-section">
+    <div>
+        <h2 class="auth-title">Panel de Administración - Gestión de Consultas</h2>
+
+        <div class="admin-stats-container">
+            <h3 class="admin-stats-title">Resumen Estadístico de Solicitudes</h3>
+
+            <div class="admin-stats-grid">
+                <div class="stat-box box-total">
+                    <span class="stat-label">Total Recibidas</span>
+                    <strong class="stat-number">{{ estadisticas.total }}</strong>
+                </div>
+
+                <div class="stat-box box-comercial">
+                    <span class="stat-label">Comerciales</span>
+                    <strong class="stat-number">{{ estadisticas.comercial }}</strong>
+                </div>
+
+                <div class="stat-box box-tecnica">
+                    <span class="stat-label">Técnicas</span>
+                    <strong class="stat-number">{{ estadisticas.tecnica }}</strong>
+                </div>
+
+                <div class="stat-box box-rrhh">
+                    <span class="stat-label">RRHH</span>
+                    <strong class="stat-number">{{ estadisticas.rrhh }}</strong>
+                </div>
+
+                <div class="stat-box box-general">
+                    <span class="stat-label">Generales</span>
+                    <strong class="stat-number">{{ estadisticas.general }}</strong>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+    <div>
+        <div class="card shadow">
+            <div class="card-body">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Asunto</th>
+                            <th>Mensaje</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in consultas %}
+                        <tr>
+                            <td>{{ c.fecha_envio|date:"d/m/Y H:i" }}</td>
+                            <td>{{ c.nombre }}</td>
+                            <td>{{ c.email }}</td>
+                            <td>{{ c.asunto }}</td>
+                            <td>{{ c.mensaje|truncatewords:8 }}</td>
+                            <td>
+                                <a href="{% url 'editar_consulta' c.pk %}" class="btn btn-sm btn-outline-primary">Editar</a>
+                                <a href="{% url 'eliminar_consulta' c.pk %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center">No hay consultas registradas.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

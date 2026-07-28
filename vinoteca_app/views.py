@@ -5,7 +5,7 @@ import requests
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
@@ -16,6 +16,8 @@ from django.contrib import messages
 from django.shortcuts import render
 from django.views import View
 from django.urls import reverse
+from .forms import ContactoEdicionForm
+from django.contrib.admin.views.decorators import staff_member_required
 import os
 
 def home(request):
@@ -270,7 +272,7 @@ def login_view(request):
                 user = authenticate(request, username=user_obj.username, password=password)
                 if user is not None:
                     login(request, user)
-                    return redirect('admin:index')
+                    return redirect('panel_consultas')
                 else:
                     messages.error(request, "Contraseña incorrecta.")
             else:
@@ -282,7 +284,6 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
-
 
 class ListaVinosExternosAPIView(APIView):
     def get(self, request):
@@ -300,7 +301,6 @@ class ListaVinosExternosAPIView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
 def productos(request):
     api_url = request.build_absolute_uri(reverse('api_vinos_externos'))
     vinos_api = []
@@ -314,3 +314,48 @@ def productos(request):
         print(f"Error interno al invocar la APIView de DRF: {e}")
 
     return render(request, 'vinoteca_app/productos.html', {'vinos_api': vinos_api})
+
+@staff_member_required(login_url='login')
+def panel_consultas(request):
+    consultas = Contacto.objects.all().order_by('-fecha_envio')
+    
+    ctx_estadisticas = {
+        'total': consultas.count(),
+        'comercial': consultas.filter(categoria="Consulta Comercial").count(),
+        'tecnica': consultas.filter(categoria="Consulta Técnica").count(),
+        'rrhh': consultas.filter(categoria="Consulta de RRHH").count(),
+        'general': consultas.filter(categoria="Consulta General").count(),
+    }
+    
+    return render(request, 'vinoteca_app/admin/panel_consultas.html', {
+        'consultas': consultas,
+        'estadisticas': ctx_estadisticas
+    })
+
+@staff_member_required(login_url='login')
+def editar_consulta(request, pk):
+    consulta = get_object_or_404(Contacto, pk=pk)
+    
+    if request.method == 'POST':
+        form = ContactoEdicionForm(request.POST, instance=consulta)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'La consulta fue actualizada con éxito.')
+            return redirect('panel_consultas')
+    else:
+        form = ContactoEdicionForm(instance=consulta)
+        
+    return render(request, 'vinoteca_app/admin/editar_consulta.html', {
+        'form': form,
+        'consulta': consulta
+    })
+
+@staff_member_required(login_url='login')
+def eliminar_consulta(request, pk):
+    consulta = get_object_or_404(Contacto, pk=pk)
+    if request.method == 'POST':
+        consulta.delete()
+        messages.success(request, 'La consulta ha sido eliminada correctamente.')
+        return redirect('panel_consultas')
+        
+    return render(request, 'vinoteca_app/admin/eliminar_consulta.html', {'consulta': consulta})

@@ -1,4 +1,5 @@
 from django import forms
+from .models import Contacto
 from django.core.validators import EmailValidator
 
 class ContactoForm(forms.Form):
@@ -96,3 +97,14 @@ class ValidacionCodigoForm(forms.Form):
 class LoginForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'correo@ejemplo.com'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Tu contraseña'}))
+
+class ContactoEdicionForm(forms.ModelForm):
+    class Meta:
+        model = Contacto
+        fields = ['nombre', 'email', 'asunto', 'mensaje']
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'asunto': forms.Select(attrs={'class': 'form-control'}),
+            'mensaje': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+        }

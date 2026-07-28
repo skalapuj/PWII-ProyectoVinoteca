@@ -24,6 +24,16 @@
     --border-radius: 1.25rem;
     --shadow-card: 0 1.25rem 2.5rem rgba(0, 0, 0, 0.18);
     --h2-size: 2.6rem;
+    --bg-dark: #2f2721;
+    --gold-accent: #d7b781;
+    --text-light: #f5e6d3;
+    --wine-header: #4a1525;
+    --dept-comercial: #6a1b1a;
+    --dept-tecnica: #9f4342;
+    --danger-red: #d9534f;
+    --bg-hover: #fcf8f9;
+    --border-light: #eef2f5;
+    --white: #ffffff;
 }
 
 /* ==========================================================================
