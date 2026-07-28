@@ -1,0 +1,27 @@
+{% extends 'emails/email_base.html' %}
+
+{% block content %}
+    <h2 style="color: #2f2721; margin-top: 0;">¡Hola, {{ nombre_destinatario }}!</h2>
+    <p>Te confirmamos que hemos recibido un nuevo formulario de consulta en el sistema de <strong>Vinoteca Reserva</strong>.</p>
+    
+    <table class="info-table">
+        <tr>
+            <td class="label">Remitente:</td>
+            <td>{{ datos.nombre }}</td>
+        </tr>
+        <tr>
+            <td class="label">Email de contacto:</td>
+            <td>{{ datos.email }}</td>
+        </tr>
+        <tr>
+            <td class="label">Categoría:</td>
+            <td>{{ asunto_legible }}</td>
+        </tr>
+        <tr>
+            <td class="label">Mensaje:</td>
+            <td>"{{ datos.mensaje }}"</td>
+        </tr>
+    </table>
+
+    <p style="font-size: 13px; color: #777;">Este es un correo automático generado por el servidor de pruebas 2026.</p>
+{% endblock %}

@@ -8,7 +8,7 @@
 <section class="auth-section">
     <div class="auth-card" style="max-width: 600px; margin: 0 auto;">
         <h2 class="auth-title">Editar Consulta #{{ consulta.id }}</h2>
-
+        
         <form method="POST" action="{% url 'editar_consulta' consulta.pk %}">
             {% csrf_token %}
 

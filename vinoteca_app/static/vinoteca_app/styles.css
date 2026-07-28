@@ -883,3 +883,55 @@ button.btn-link:hover {
     text-align: center;
     padding: 1rem;
 }
+
+/* Contenedor global de alertas */
+.messages-container {
+  margin: 2rem 0;
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
+/* Alerta base homogénea */
+.alert {
+  padding: 0.875rem 1.25rem;
+  border-radius: 0.5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  text-align: center;
+  border: 0.0625rem solid transparent;
+}
+
+/* Éxito (Success) */
+.alert-success {
+  background-color: rgba(215, 183, 129, 0.15);
+  color: var(--gold-accent);
+  border-color: var(--gold-accent);
+}
+
+/* Error / Peligro */
+.alert-error, .alert-danger {
+  background-color: rgba(217, 83, 79, 0.15);
+  color: var(--danger-red);
+  border-color: var(--danger-red);
+}
+
+/* Información / Info */
+.alert-info {
+  background-color: rgba(196, 184, 173, 0.15);
+  color: var(--text-light);
+  border-color: var(--border-light);
+}
+
+.user-info {
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 2rem;
+  color: var(--text-light);
+}
+
+.user-info strong {
+  color: var(--gold-accent);
+  font-weight: 600;
+}

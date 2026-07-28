@@ -1,0 +1,15 @@
+{% extends 'emails/email_base.html' %}
+
+{% block content %}
+    <h2 style="color: #2f2721; margin-top: 0;">Hola, {{ permitido.nombre }}</h2>
+    <p>Tu cuenta ya se encuentra pre-registrada en nuestro sistema, pero requiere que completes el proceso de validación.</p>
+    
+    <p>Tu código de seguridad es:</p>
+    <div class="code-box">{{ permitido.codigo_validation }}</div>
+
+    <p style="text-align: center;">
+        <a href="http://127.0.0.1:8000/validar-cuenta/" class="btn-action">Verificar mi Cuenta</a>
+    </p>
+
+    <p>Ingresa al panel para colocar este código y habilitar tu usuario.</p>
+{% endblock %}

@@ -8,7 +8,8 @@ from rest_framework import status
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
+from django.utils.html import strip_tags
 from django.conf import settings
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
@@ -17,6 +18,8 @@ from django.shortcuts import render
 from django.views import View
 from django.urls import reverse
 from .forms import ContactoEdicionForm
+from django.db import IntegrityError, connection
+from django.template.loader import render_to_string
 from django.contrib.admin.views.decorators import staff_member_required
 import os
 
@@ -43,6 +46,20 @@ def contacto(request):
                     asunto=datos_limpios['asunto'],
                     mensaje=datos_limpios['mensaje']
                 )
+            except IntegrityError:
+                # Si PostgreSQL se desincronizó por borrados previos,
+                # corrijo la secuencia automáticamente desde el código
+                with connection.cursor() as cursor:
+                    cursor.execute("SELECT setval(pg_get_serial_sequence('vinoteca_app_contacto', 'id'), coalesce(max(id), 1)) FROM vinoteca_app_contacto;")
+                
+                # Volvemos a intentar el guardado de forma segura
+                nueva_consulta = Contacto.objects.create(
+                    nombre=datos_limpios['nombre'],
+                    email=datos_limpios['email'],
+                    asunto=datos_limpios['asunto'],
+                    mensaje=datos_limpios['mensaje']
+                )
+
             except Exception as e:
                 return JsonResponse({
                     'status': 'error',
@@ -61,31 +78,24 @@ def contacto(request):
 
                 asunto_mail = f"Nueva Consulta Recibida - Categoría: {nueva_consulta.categoria}"
 
-                cuerpo_mensaje = (
-                    f"Hola {nombre_destinatario},\n\n"
-                    f"Te confirmamos que hemos recibido un nuevo formulario en el sistema de Vinoteca Reserva.\n\n"
-                    f"Detalle de los datos cargados por el cliente:\n"
-                    f"==================================================\n"
-                    f"• Remitente: {datos_limpios['nombre']}\n"
-                    f"• Email de contacto: {datos_limpios['email']}\n"
-                    f"• Categoría: {asunto_legible}\n"
-                    f"• Asunto: {nueva_consulta.categoria}\n"
-                    f"• Mensaje enviado: \"{datos_limpios['mensaje']}\"\n"
-                    f"==================================================\n\n"
-                    f"Este es un correo automático generado por el servidor de pruebas 2026.\n"
-                    f"Atentamente,\n"
-                    f"Soporte Técnico - Vinoteca Reserva S.A."
-                )
+                cuerpo_mensaje = render_to_string('emails/email_contacto.html', {
+                    'nombre_destinatario': nombre_destinatario,
+                    'datos': datos_limpios,
+                    'asunto_legible': asunto_legible,
+                    'nueva_consulta': nueva_consulta
+                });
 
                 if settings.DEBUG:
                     # Si NO estoy en Render (o sea, estamos en localhost), mando el mail
-                    send_mail(
+                    texto_plano = strip_tags(cuerpo_mensaje)
+                    email = EmailMultiAlternatives(
                         subject=asunto_mail,
-                        message=cuerpo_mensaje,
+                        body=texto_plano,
                         from_email=settings.DEFAULT_FROM_EMAIL,
-                        recipient_list=[destinatario_final],
-                        fail_silently=False,
+                        to=[destinatario_final],
                     )
+                    email.attach_alternative(cuerpo_mensaje, "text/html")
+                    email.send(fail_silently=False)
 
                 print(f"Correo automático de categoría [{nueva_consulta.categoria}] enviado con éxito a: {destinatario_final}")
 
@@ -133,22 +143,34 @@ def registro_view(request):
                 else:
                     permitido = UsuarioPermitido.objects.filter(email=email_ingresado).first()
                     if permitido:
-                        request.session['email_a_validar'] = email_ingresado
+                        try:
+                            request.session['email_a_validar'] = email_ingresado
+                            asunto_reenvio = "Reenvío de Código de Validación - Panel de Administración Vinoteca Reserva"
+                            cuerpo_html_reenvio = render_to_string('emails/email_reenvio_codigo.html', {
+                                'permitido': permitido
+                            })
 
-                        if settings.DEBUG:
-                            # Si NO estoy en Render (o sea, estamos en localhost), mando el mail
-                            send_mail(
-                                subject="Validación de Cuenta - Reenvío de Código",
-                                message=f"Hola {permitido.nombre},\n\nTu cuenta ya está pre-registrada pero le falta validación.\nCódigo: {permitido.codigo_validation}",
-                                from_email=settings.DEFAULT_FROM_EMAIL,
-                                recipient_list=[email_ingresado],
-                                fail_silently=False,
-                            )
+                            if settings.DEBUG:
+                                # Si NO estoy en Render (o sea, estamos en localhost), mando el mail
+                                texto_plano = strip_tags(cuerpo_html_reenvio)
+                                email = EmailMultiAlternatives(
+                                    subject=asunto_reenvio,
+                                    body=texto_plano,
+                                    from_email=settings.DEFAULT_FROM_EMAIL,
+                                    to=[email_ingresado],
+                                )
+                                email.attach_alternative(cuerpo_html_reenvio, "text/html")
+                                email.send(fail_silently=False)
 
-                        return JsonResponse({
-                            'status': 'success',
-                            'message': 'La cuenta ya existe pero falta validar. Le reenviamos el correo.'
-                        })
+                            return JsonResponse({
+                                'status': 'success',
+                                'message': 'La cuenta ya existe pero falta validar. Le reenviamos el correo.'
+                            })
+                        except Exception as e:
+                            return JsonResponse({
+                                'status': 'error',
+                                'errors': [f"Error crítico al enviar el email: {str(e)}"]
+                            }, status=500)
 
             permitido = UsuarioPermitido.objects.filter(email=email_ingresado).first()
 
@@ -171,30 +193,21 @@ def registro_view(request):
                 try:
                     asunto_auth = "Validación de Cuenta - Panel de Administración Vinoteca Reserva"
 
-                    cuerpo_auth = (
-                        f"Hola {permitido.nombre},\n\n"
-                        f"Se ha iniciado un pedido de registro para tu cuenta en el Panel de Administración de Vinoteca Reserva.\n"
-                        f"Como el acceso es restringido, necesitamos que verifiques tu identidad ingresando el código de seguridad obligatorio.\n\n"
-                        f"Tus datos de acceso para verificar:\n"
-                        f"==================================================\n"
-                        f"• Código de Validación: {permitido.codigo_validation}\n"
-                        f"• Enlace de Verificación: http://127.0.0.1:8000/validar-cuenta/\n"
-                        f"==================================================\n\n"
-                        f"Copia el código anterior, ingresa al enlace provisto y pégalo para habilitar tu cuenta en el sistema.\n\n"
-                        f"Si no solicitaste este acceso, por favor desestima este correo.\n\n"
-                        f"Saludos cordiales,\n"
-                        f"Soporte Técnico - Vinoteca Reserva S.A. 2026."
-                    )
+                    cuerpo_auth = render_to_string('emails/email_validacion.html', {
+                        'permitido': permitido
+                    })
 
                     if settings.DEBUG:
                         # Si NO estoy en Render (o sea, estamos en localhost), mando el mail
-                        send_mail(
+                        texto_plano = strip_tags(cuerpo_auth)
+                        email = EmailMultiAlternatives(
                             subject=asunto_auth,
-                            message=cuerpo_auth,
+                            body=texto_plano,
                             from_email=settings.DEFAULT_FROM_EMAIL,
-                            recipient_list=[email_ingresado],
-                            fail_silently=False,
+                            to=[email_ingresado],
                         )
+                        email.attach_alternative(cuerpo_auth, "text/html")
+                        email.send(fail_silently=False)
 
                     print(f"Código de validación enviado por correo a: {email_ingresado}")
 

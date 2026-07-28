@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f4f1ea;
+            margin: 0;
+            padding: 20px;
+            color: #2f2721;
+        }
+        .email-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #d7b781;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .email-header {
+            background-color: #2f2721;
+            padding: 25px;
+            text-align: center;
+            border-bottom: 3px solid #d7b781;
+        }
+        .email-logo {
+            max-height: 70px;
+            width: auto;
+        }
+        .email-body {
+            padding: 30px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #333333;
+        }
+        .email-footer {
+            background-color: #2f2721;
+            color: #c4b8ad;
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+        }
+        .btn-action {
+            display: inline-block;
+            background-color: #d7b781;
+            color: #2f2721 !important;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .code-box {
+            background-color: #fcebe6;
+            border-left: 4px solid #6A1B1A;
+            padding: 15px;
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: #6A1B1A;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .info-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #eef2f5;
+        }
+        .info-table td.label {
+            font-weight: bold;
+            color: #6A1B1A;
+            width: 35%;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-card">
+        <div class="email-header">
+            <!-- URL absoluta al logo de la empresa -->
+            <img src="https://raw.githubusercontent.com/skalapuj/PWII-ProyectoVinoteca/master/static/images/logoVinoteca.png" alt="Vinoteca Reserva" class="email-logo">
+        </div>
+        <div class="email-body">
+            {% block content %}{% endblock %}
+        </div>
+        <div class="email-footer">
+            <p>Vinoteca Reserva S.A. &copy; 2026 — Todos los derechos reservados.</p>
+            <p>Este es un correo automático, por favor no respondas a este mensaje.</p>
+        </div>
+    </div>
+</body>
+</html>
