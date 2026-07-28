@@ -113,7 +113,19 @@ Si desea clonar y ejecutar este proyecto en un entorno local, siga estos pasos:
     ```bash
     pip install -r requirements.txt
     ```
-4.  **Ejecutar Migraciones y Servidor:**
+4. **Configurar la base de datos (PostgreSQL):**
+   Crea una base de datos local llamada `vinoteca` (puedes hacerlo desde pgAdmin haciendo clic derecho en Databases > Create > Database... o mediante la terminal con createdb -U postgres vinoteca).
+   
+   El proyecto viene preconfigurado en settings.py con las siguientes credenciales por defecto:
+   - Engine: PostgreSQL
+   - Database: vinoteca
+   - User: postgres
+   - Password: 12345678
+   - Host: localhost
+   - Port: 5432
+   
+   Nota: Si tu usuario o contraseña local de PostgreSQL son distintos, asegúrate de actualizarlos en la configuración de la base de datos dentro de settings.py para evitar errores de conexión.
+5. **Ejecutar Migraciones y Servidor:**
     ```bash
     python manage.py migrate
     python manage.py runserver
