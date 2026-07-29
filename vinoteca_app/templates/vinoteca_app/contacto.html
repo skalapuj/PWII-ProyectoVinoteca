@@ -38,7 +38,9 @@
         <div class="contact-form-wrapper">
             <form class="contact-form" method="POST" id="form-contacto">
                 {% csrf_token %}
-                <div id="error-message" class="feedback-message d-none" role="alert"></div>
+                <div id="error-message" class="alert alert-success d-none" role="alert">
+                    <p id="error-message-text" class="alert-gen">{{ message }}</p>
+                </div>
 
                 {{ form.as_p }}
 

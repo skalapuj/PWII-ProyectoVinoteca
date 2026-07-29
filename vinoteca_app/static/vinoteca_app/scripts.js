@@ -100,8 +100,9 @@ function validarMensaje() {
 
 function mostrarFeedback(mensaje, esExito) {
     const feedbackBox = document.getElementById('error-message');
+    const feedbackBoxText = document.getElementById('error-message-text');
     if (!feedbackBox) return;
-    feedbackBox.textContent = mensaje;
+    feedbackBoxText.textContent = mensaje;
     if (esExito) {
         feedbackBox.classList.remove('error-msg');
         feedbackBox.classList.add('ok-msg');

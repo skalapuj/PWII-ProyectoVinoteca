@@ -908,6 +908,17 @@ button.btn-link:hover {
   border: 0.0625rem solid transparent;
 }
 
+.alert-gen {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0.5rem;
+  text-align: center;
+  border: 0.0625rem solid transparent;
+
+}
 /* Éxito (Success) */
 .alert-success {
   background-color: rgba(215, 183, 129, 0.15);
@@ -1006,4 +1017,8 @@ text-decoration: none;
     padding: 0;
     max-width: var(--max-width-site);
     margin: 4rem auto;
+}
+
+.d-none {
+    display: none;
 }

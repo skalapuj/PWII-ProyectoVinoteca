@@ -77,7 +77,7 @@ def contacto(request):
                     destinatario_final = request.user.email
                     nombre_destinatario = request.user.first_name or request.user.username
                 else:
-                    destinatario_final = 'annavillegas@live.com.ar'#'skalapuj@gmail.com'
+                    destinatario_final = 'skalapuj@gmail.com'
                     nombre_destinatario = "Profesora Analía"
 
                 asunto_legible = dict(form.fields['asunto'].choices).get(datos_limpios['asunto'], 'Consulta General')
