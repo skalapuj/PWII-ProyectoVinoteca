@@ -21,6 +21,11 @@ from .forms import ContactoEdicionForm
 from django.db import IntegrityError, connection
 from django.template.loader import render_to_string
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
+from django.contrib.auth.views import PasswordResetConfirmView, PasswordResetCompleteView
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
 import os
 
 def home(request):
@@ -71,7 +76,7 @@ def contacto(request):
                     destinatario_final = request.user.email
                     nombre_destinatario = request.user.first_name or request.user.username
                 else:
-                    destinatario_final = 'skalapuj@gmail.com'
+                    destinatario_final = 'skalapuj@gmail.com'#'annavillegas@live.com.ar'
                     nombre_destinatario = "Profesora Analía"
 
                 asunto_legible = dict(form.fields['asunto'].choices).get(datos_limpios['asunto'], 'Consulta General')
@@ -372,3 +377,51 @@ def eliminar_consulta(request, pk):
         return redirect('panel_consultas')
         
     return render(request, 'vinoteca_app/admin/eliminar_consulta.html', {'consulta': consulta})
+
+def olvide_password_view(request):
+    if request.method == 'POST':
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            user = User.objects.filter(email=email).first()
+
+            if user:
+                token = default_token_generator.make_token(user)
+                uid = urlsafe_base64_encode(force_bytes(user.pk))
+                
+                cuerpo_html = render_to_string('emails/email_restablecer_password.html', {
+                    'user': user,
+                    'domain': request.get_host(),
+                    'protocol': 'https' if request.is_secure() else 'http',
+                    'uid': uid,
+                    'token': token,
+                })
+                texto_plano = strip_tags(cuerpo_html)
+
+                try:
+                    email_msg = EmailMultiAlternatives(
+                        subject="Restablecimiento de Contraseña - Vinoteca Reserva",
+                        body=texto_plano,
+                        from_email=settings.DEFAULT_FROM_EMAIL,
+                        to=[email],
+                    )
+                    email_msg.attach_alternative(cuerpo_html, "text/html")
+                    email_msg.send(fail_silently=False)
+
+                    messages.success(request, f"Te hemos enviado un correo a {email} con las instrucciones para restablecer tu contraseña.")
+                    return redirect('login')
+                except Exception as e:
+                    messages.error(request, f"Error al enviar el correo: {str(e)}")
+            else:
+                messages.error(request, "El correo electrónico ingresado no se encuentra registrado.")
+    else:
+        form = PasswordResetForm()
+    return render(request, 'vinoteca_app/auth/olvide_password.html', {'form': form})
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'vinoteca_app/auth/reset_confirm.html'
+    
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "¡Tu contraseña se ha restablecido con éxito! Ya puedes iniciar sesión.")
+        return redirect('login')

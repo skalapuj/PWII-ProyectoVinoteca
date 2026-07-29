@@ -15,14 +15,22 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    {% include 'header.html' %}
+    {% if '/panel-admin/' in request.path %}
+        {% include 'header_panel.html' %}
+    {% else %}
+        {% include 'header.html' %}
+    {% endif %}
 
     <main class="content">
         {% block content %}
         {% endblock %}
     </main>
 
-    {% include 'footer.html' %}
+    {% if '/panel-admin/' in request.path %}
+        {% include 'footer_panel.html' %}
+    {% else %}
+        {% include 'footer.html' %}
+    {% endif %}
     {% block extra_js %}{% endblock %}
 </body>
 </html>

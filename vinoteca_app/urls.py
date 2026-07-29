@@ -17,4 +17,7 @@ urlpatterns = [
     path('panel-admin/consultas/', views.panel_consultas, name='panel_consultas'),
     path('panel-admin/consultas/<int:pk>/editar/', views.editar_consulta, name='editar_consulta'),
     path('panel-admin/consultas/<int:pk>/eliminar/', views.eliminar_consulta, name='eliminar_consulta'),
+
+    path('olvide-password/', views.olvide_password_view, name='olvide_password'),
+    path('reset/<uidb64>/<token>/', views.CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
 ]

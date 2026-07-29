@@ -1,0 +1,12 @@
+{% load static %}
+<header class="main-header">
+    <div class="header-container">
+        <div class="logo">
+            <img src="{% static 'images/logoLetras.png' %}" alt="Vinoteca Reserva">
+        </div>
+
+        <div class="center user-info">
+            👤 <span>{{ user.first_name }} {{ user.last_name|default:user.username }}</strong></span>
+        </div>
+    </div>
+</header>

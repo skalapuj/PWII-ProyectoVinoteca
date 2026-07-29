@@ -98,6 +98,17 @@ class LoginForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'correo@ejemplo.com'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Tu contraseña'}))
 
+class PasswordResetForm(forms.Form):
+    email = forms.EmailField(
+        required=True,
+        validators=[EmailValidator(message="El formato del correo electrónico no es válido.")],
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'id': 'email',
+            'placeholder': 'correo@ejemplo.com'
+        })
+    )
+
 class ContactoEdicionForm(forms.ModelForm):
     class Meta:
         model = Contacto
