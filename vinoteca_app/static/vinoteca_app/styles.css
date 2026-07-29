@@ -473,7 +473,7 @@ button.btn-link:hover {
     border: 0.125rem solid var(--auth-color-primary);
     padding: 3rem;
     border-radius: 0.625rem;
-    max-width: 25rem;
+    max-width: var(--max-width-site);
     width: 100%;
     color: var(--auth-color-text-light);
 }
@@ -547,7 +547,7 @@ button.btn-link:hover {
     border: 0.125rem solid var(--auth-color-primary);
     padding: 3rem;
     border-radius: 0.625rem;
-    max-width: 25rem;
+    max-width: var(--max-width-site);
     width: 100%;
     color: var(--auth-color-text-light);
 }
@@ -622,7 +622,7 @@ button.btn-link:hover {
     border: 0.125rem solid var(--auth-color-primary);
     padding: 3rem;
     border-radius: 0.625rem;
-    max-width: 25rem;
+    max-width: var(--max-width-site);
     width: 100%;
     color: var(--auth-color-text-light);
 }
@@ -939,4 +939,71 @@ button.btn-link:hover {
 .user-info strong {
   color: var(--gold-accent);
   font-weight: 600;
+}
+
+a{
+text-decoration: none;
+}
+
+
+.csm-card {
+    background: var(--auth-color-bg-card);
+    border: 0.125rem solid var(--auth-color-primary);
+    padding: 0.75rem;
+    margin-bottom: 1.5rem;
+    border-radius: 0.625rem;
+    max-width: var(--max-width-site);
+    width: 100%;
+    color: var(--auth-color-text-light);
+}
+
+.csm-card .form-group label {
+    margin-top: .4rem;
+    margin-bottom: .4rem;
+    color: var(--auth-color-text-muted);
+}
+
+.csm-card .form-group input, .form-group select, .form-group textarea{
+    background-color: var(--primary-soft);   
+}
+
+.csm-web{
+    text-decoration: underline;
+    color: var(--auth-color-primary);
+}
+.cancel{
+    color: var(--primary-soft);
+}
+
+.csm-section {
+    background: var(--auth-color-bg-dark);
+    padding: 4rem 2rem;
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.csm-card-frame {
+    background: var(--auth-color-bg-card);    
+    max-width: var(--max-width-site);
+    width: 100%;
+    border-radius: 0.625rem;
+    color: var(--auth-color-text-light);
+}
+
+
+.csm-ver{
+    text-align: center;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-top: 0.0625rem solid rgba(215, 183, 129, 0.2);
+    border-bottom: 0.0625rem solid rgba(215, 183, 129, 0.2);
+}
+
+.consultas-section {
+    padding: 0;
+    max-width: var(--max-width-site);
+    margin: 4rem auto;
 }

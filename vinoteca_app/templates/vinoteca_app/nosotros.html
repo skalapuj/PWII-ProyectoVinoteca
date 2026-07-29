@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'vinoteca_app/styles.css' %}">
     <link rel="stylesheet" href="{% static 'vinoteca_app/responsive.css' %}">
@@ -21,22 +22,22 @@
             </div>
         </div>
         <div class="story-text">
-            <h2 class="section-label tal" >Nuestra Historia</h2>
+            <h2 class="section-label tal">{{ contenido.titulo_historia }}</h2>
             <p class="hero-description">
-                Fundada en el corazón del Valle de Uco, nuestra bodega nació de un sueño familiar: transformar la pureza del agua de montaña y la fuerza del sol mendocino en vinos con alma.
+                {{ contenido.parrafo1_historia }}
             </p>
             <p class="hero-description">
-                Desde hace tres generaciones, mantenemos el compromiso de intervenir lo menos posible en el proceso natural, permitiendo que cada botella sea un reflejo fiel de su terruño.
+                {{ contenido.parrafo2_historia }}
             </p>
         </div>
 
         <div class="story-text">
-            <h2 class="section-label tal">El Secreto</h2>
+            <h2 class="section-label tal">{{ contenido.titulo_secreto }}</h2>
             <p class="hero-description">
-                Creemos que el vino se hace en el viñedo. Por eso, cuidamos nuestras vides con técnicas orgánicas y una cosecha manual que respeta los tiempos de la naturaleza.
+                {{ contenido.parrafo1_secreto }}
             </p>
             <p class="hero-description">
-                La altitud y la amplitud térmica de nuestra zona nos brindan uvas de una concentración y frescura excepcionales, que luego descansan en barricas de roble francés.
+                {{ contenido.parrafo2_secreto }}
             </p>
         </div>
         <div class="story-image">

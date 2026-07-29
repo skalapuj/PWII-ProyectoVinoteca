@@ -51,3 +51,43 @@ class PerfilUsuario(models.Model):
 
     def __str__(self):
         return f"Perfil de {self.user.username} - Validado: {self.cuenta_validada}"
+
+class ContenidoNosotros(models.Model):
+    # Sección 1: Nuestra Historia
+    titulo_historia = models.CharField(
+        max_length=200, 
+        default="Nuestra Historia", 
+        verbose_name="Título Historia"
+    )
+    parrafo1_historia = models.TextField(
+        verbose_name="Historia - Párrafo 1",
+        default="Fundada en el corazón del Valle de Uco, nuestra bodega nació de un sueño familiar: transformar la pureza del agua de montaña y la fuerza del sol mendocino en vinos con alma."
+    )
+    parrafo2_historia = models.TextField(
+        verbose_name="Historia - Párrafo 2",
+        default="Desde hace tres generaciones, mantenemos el compromiso de intervenir lo menos posible en el proceso natural, permitiendo que cada botella sea un reflejo fiel de su terruño."
+    )
+
+    # Sección 2: El Secreto
+    titulo_secreto = models.CharField(
+        max_length=200, 
+        default="El Secreto", 
+        verbose_name="Título El Secreto"
+    )
+    parrafo1_secreto = models.TextField(
+        verbose_name="El Secreto - Párrafo 1",
+        default="Creemos que el vino se hace en el viñedo. Por eso, cuidamos nuestras vides con técnicas orgánicas y una cosecha manual que respeta los tiempos de la naturaleza."
+    )
+    parrafo2_secreto = models.TextField(
+        verbose_name="El Secreto - Párrafo 2",
+        default="La altitud y la amplitud térmica de nuestra zona nos brindan uvas de una concentración y frescura excepcionales, que luego descansan en barricas de roble francés."
+    )
+
+    ultima_modificacion = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Contenido de Nosotros"
+        verbose_name_plural = "Contenido de Nosotros"
+
+    def __str__(self):
+        return f"Contenido de Nosotros (Última edición: {self.ultima_modificacion.strftime('%d/%m/%Y %H:%M')})"

@@ -20,4 +20,6 @@ urlpatterns = [
 
     path('olvide-password/', views.olvide_password_view, name='olvide_password'),
     path('reset/<uidb64>/<token>/', views.CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+
+    path('panel-admin/cms/', views.cms_editor_view, name='cms_editor'),
 ]

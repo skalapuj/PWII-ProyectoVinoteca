@@ -5,6 +5,13 @@
             <img src="{% static 'images/logoLetras.png' %}" alt="Vinoteca Reserva">
         </div>
 
+        <nav class="nav-menu">
+            <ul class="nav-list">
+                <li><a class="nav-link {% if request.resolver_match.url_name == 'panel_consultas' %}active{% endif %}" href="{% url 'panel_consultas' %}">Consultas</a></li>
+                <li><a class="nav-link {% if request.resolver_match.url_name == 'cms_editor' %}active{% endif %}" href="{% url 'cms_editor' %}">CMS Nosotros</a></li>
+            </ul>
+        </nav>
+
         <div class="center user-info">
             👤 <span>{{ user.first_name }} {{ user.last_name|default:user.username }}</strong></span>
         </div>

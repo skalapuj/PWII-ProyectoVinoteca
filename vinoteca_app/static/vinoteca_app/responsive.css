@@ -83,6 +83,14 @@
     .contact-section{
         margin: 0rem;
     }
+    
+    .consultas-section{
+        margin: 1.5rem;
+    }
+
+    .csm-section{
+        margin: 1.5rem;
+    }
 }
 
 /* Ajuste para Móviles (max 640px) */

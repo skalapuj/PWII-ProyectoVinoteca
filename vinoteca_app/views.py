@@ -1,5 +1,5 @@
-from .forms import ContactoForm, RegistroForm, ValidacionCodigoForm, LoginForm
-from .models import Contacto, UsuarioPermitido, PerfilUsuario
+from .forms import ContactoForm, RegistroForm, ValidacionCodigoForm, LoginForm, CMSNosotrosForm
+from .models import Contacto, UsuarioPermitido, PerfilUsuario, ContenidoNosotros
 from .serializers import VinoExternoSerializer
 import requests
 from rest_framework.views import APIView
@@ -32,7 +32,8 @@ def home(request):
     return render(request, 'vinoteca_app/index.html')
 
 def nosotros(request):
-    return render(request, 'vinoteca_app/nosotros.html')
+    contenido, _ = ContenidoNosotros.objects.get_or_create(id=1)
+    return render(request, 'vinoteca_app/nosotros.html', {'contenido': contenido})
 
 def contacto(request):
     if request.method == 'GET':
@@ -332,6 +333,26 @@ def productos(request):
         print(f"Error interno al invocar la APIView de DRF: {e}")
 
     return render(request, 'vinoteca_app/productos.html', {'vinos_api': vinos_api})
+
+@staff_member_required(login_url='login')
+def cms_editor_view(request):
+    contenido, _ = ContenidoNosotros.objects.get_or_create(id=1)
+
+    if request.method == 'POST':
+        form = CMSNosotrosForm(request.POST, instance=contenido)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "¡Contenido de la página 'Nosotros' actualizado con éxito!")
+            return redirect('cms_editor')
+        else:
+            messages.error(request, "Ocurrió un error al intentar guardar los cambios.")
+    else:
+        form = CMSNosotrosForm(instance=contenido)
+
+    return render(request, 'vinoteca_app/admin/cms_editor.html', {
+        'form': form,
+        'contenido': contenido
+    })
 
 @staff_member_required(login_url='login')
 def panel_consultas(request):

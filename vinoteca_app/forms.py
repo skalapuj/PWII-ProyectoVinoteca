@@ -1,5 +1,5 @@
 from django import forms
-from .models import Contacto
+from .models import Contacto, ContenidoNosotros
 from django.core.validators import EmailValidator
 
 class ContactoForm(forms.Form):
@@ -118,4 +118,20 @@ class ContactoEdicionForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'asunto': forms.Select(attrs={'class': 'form-control'}),
             'mensaje': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+        }
+    
+class CMSNosotrosForm(forms.ModelForm):
+    class Meta:
+        model = ContenidoNosotros
+        fields = [
+            'titulo_historia', 'parrafo1_historia', 'parrafo2_historia',
+            'titulo_secreto', 'parrafo1_secreto', 'parrafo2_secreto'
+        ]
+        widgets = {
+            'titulo_historia': forms.TextInput(attrs={'class': 'form-control'}),
+            'parrafo1_historia': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'parrafo2_historia': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'titulo_secreto': forms.TextInput(attrs={'class': 'form-control'}),
+            'parrafo1_secreto': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'parrafo2_secreto': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
         }

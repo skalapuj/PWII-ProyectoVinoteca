@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'vinoteca_app/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'vinoteca_app/responsive.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="csm-section">
+    <div class="csm-card-frame">
+        <h2 class="auth-title">Panel de Administración - Gestor CMS (Nosotros)</h2>
+
+        {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <div class="csm-ver">
+            <div class="center">
+                <a href="{% url 'nosotros' %}" target="_blank" class="auth-footer-text csm-web">
+                    Ver la Web Nosotros ↗
+                </a>
+            </div>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="csm-card">
+                <h3 class="admin-stats-title">Sección 1: <br> Historia</h3>
+                
+                <div class="form-group">
+                    <label class="form-label text-light fw-bold">Título de la Sección</label>
+                    {{ form.titulo_historia }}
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label text-light fw-bold">Primer Párrafo</label>
+                    {{ form.parrafo1_historia }}
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label text-light fw-bold">Segundo Párrafo</label>
+                    {{ form.parrafo2_historia }}
+                </div>
+            </div>
+
+            <div class="csm-card">
+                <h3 class="admin-stats-title">Sección 2: <br>    El Secreto</h3>
+
+                <div class="form-group">
+                    <label class="form-label text-light fw-bold">Título de la Sección</label>
+                    {{ form.titulo_secreto }}
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label text-light fw-bold">Primer Párrafo</label>
+                    {{ form.parrafo1_secreto }}
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label text-light fw-bold">Segundo Párrafo</label>
+                    {{ form.parrafo2_secreto }}
+                </div>
+            </div>
+
+            <div class="center">                
+                <button type="submit" class="btn-submit">
+                    Guardar Cambios
+                </button>
+                <div class="center ">
+                    <a href="{% url 'panel_consultas' %}" class="auth-footer-text cancel">
+                        Cancelar
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+</section>
+{% endblock %}
